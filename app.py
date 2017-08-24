@@ -39,7 +39,7 @@ def newUser():
 if __name__ == "__main__":
 	# Read the config file
 	try:
-        	config = yaml.load('config.yml', 'r'))
+        	config = yaml.load('config.yml', 'r')
 	except yaml.YAMLError, exc:
         	print "Error in configuration file: %s" % exc
 
