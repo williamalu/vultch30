@@ -28,13 +28,12 @@ Handle new user request and send to login page
 @app.route('/newUser', methods=['POST'])
 def newUser():
 	# Check that all fields were filled
-	if username and email and password:
-		username = request.form['username']
-		email = request.form['email']
-		password = request.form['password']
+	username = request.form['username']
+	email = request.form['email']
+	password = request.form['password']
 
+	if username and email and password:
 		database.newUser(username, email, password)
-		
 		print "New profile created for %s" % username
 
 		return render_template('main.html')
@@ -58,6 +57,10 @@ if __name__ == "__main__":
 	if uri and database:
 		# Set up the database and run the app
 		database = database_interface.Database(uri, database)
+	
+		# database.deleteCollectionContents('users') # DEBUGGING	
+		database.printCollection('users') # DEBUGGING
+	
 		app.run(debug=True)
 	else:
 		print "Error loading mongo config values"
