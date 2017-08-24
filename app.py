@@ -27,24 +27,33 @@ Handle new user request and send to login page
 """
 @app.route('/newUser', methods=['POST'])
 def newUser():
-	username = request.form['username']
-	email = request.form['email']
-	password = request.form['password']
+	# Check that all fields were filled
+	if username and email and password:
+		username = request.form['username']
+		email = request.form['email']
+		password = request.form['password']
 
-	print username
+		database.newUser(username, email, password)
+		
+		print "New profile created for %s" % username
 
-	return render_template('main.html')
+		return render_template('main.html')
+	else: 
+		# TODO: Throw some sort of warning to the user
+		return render_template('index.html')
 
 
 if __name__ == "__main__":
 	# Read the config file
+	uri = ''
+	database = ''
 	try:
-        	config = yaml.load('config.yml', 'r')
+		with open('config.yml', 'r') as f:
+        		config = yaml.load(f)
+			uri = config['mongo']['uri']
+			database = config['mongo']['database']
 	except yaml.YAMLError, exc:
         	print "Error in configuration file: %s" % exc
-
-	uri = config['mongo']['uri']
-	database = config['mongo']['database']
 
 	if uri and database:
 		# Set up the database and run the app
