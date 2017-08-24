@@ -12,7 +12,6 @@
 
 ```
 {'_id': 'Kathryn Hite',
- 'pass': 'password',
  'onboard': '2017-09-01',
  'type': 'lead',
  'status': 'active',
