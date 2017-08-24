@@ -72,4 +72,15 @@ class Database():
 	Authenticate a user login
 	"""
 	def userAuth(self, user, givenPass):
-		pass
+		# Find the user's profile
+		userProfile = self.db['users'].find_one({'_id': user})
+
+		if userProfile:
+			profilePass = userProfile['pass']
+			# Check password
+			if profilePass == givenPass:
+				return "Authenticated"
+			else:
+				return "Incorrect"
+		else:
+			return "Not Found"

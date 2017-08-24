@@ -19,7 +19,15 @@ Inital page with new user creation
 """
 @app.route('/')
 def home():
-    return render_template('index.html')
+	return render_template('index.html')
+
+
+"""
+Login page
+"""
+@app.route('/login')
+def login():
+	return render_template('login.html')
 
 
 """
@@ -36,10 +44,34 @@ def newUser():
 		database.newUser(username, email, password)
 		print "New profile created for %s" % username
 
-		return render_template('main.html')
+		return render_template('login.html')
 	else: 
-		# TODO: Throw some sort of warning to the user
+		# TODO: Throw some sort of blank fields warning to the user
 		return render_template('index.html')
+
+
+"""
+Handle user authentication
+"""
+@app.route('/auth', methods=['POST'])
+def userAuth():
+	# Check that both fields were filled
+	user = request.form['username']
+	password = request.form['password']
+	
+	if user and password:
+		res = database.userAuth(user, password)
+		if res == "Not Found":
+			# TODO: Tell user to make a profile
+			return render_template('login.html')
+		elif res == "Incorrect":
+			# TODO: Tell the user their pass was incorrect
+			return render_template('login.html')
+		else: 
+			return render_template('main.html')
+	else:
+		# TODO: Throw some sort of blank fields warning to the user
+		return render_template('login.html')
 
 
 if __name__ == "__main__":
