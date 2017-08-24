@@ -4,6 +4,7 @@ Interface for the mongo database
 
 import pymongo
 import json
+import bcrypt
 from pymongo import MongoClient
 from datetime import datetime
 
@@ -49,6 +50,9 @@ class Database():
 		# Get collection to write to
 		usersCollection = self.db['users']
 		
+		# Hash the password
+		hashed = bcrypt.hashpw(password, bcrypt.gensalt())
+
 		# Assemble profile
 		onboard = datetime.now()
 		onboard = onboard.strftime('%m/%d/%Y')
@@ -78,7 +82,7 @@ class Database():
 		if userProfile:
 			profilePass = userProfile['pass']
 			# Check password
-			if profilePass == givenPass:
+			if bcrypt.hashpw(givenPass, profilePass) == profilePass:
 				return "Authenticated"
 			else:
 				return "Incorrect"
