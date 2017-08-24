@@ -58,19 +58,19 @@
         <div class="row mt-5 justify-content-center">
             <div class="col-lg-4">
                 <h3 class="text-center">Sign Up</h3>
-                <form>
+                <form action="{{ url_for('newUser') }}" method="post">
                     <div class="form-group">
                         <label for="usernameInput">Username</label>
-                        <input type="text" class="form-control" id="usernameInput" placeholder="Pick a username">
+                        <input type="text" name="username" class="form-control" id="usernameInput" placeholder="Pick a username">
                     </div>
                     <div class="form-group">
                         <label for="emailInput">Email</label>
-                        <input type="email" class="form-control" id="emailInput" placeholder="you@quizbowlrocks.com">
+                        <input type="email" name="email" class="form-control" id="emailInput" placeholder="you@quizbowlrocks.com">
                         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                     </div>
                     <div class="form-group">
                         <label for="passwordInput">Password</label>
-                        <input type="password" class="form-control" id="passwordInput" placeholder="Create a password">
+                        <input type="password" name="password" class="form-control" id="passwordInput" placeholder="Create a password">
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-outline-light">Sign up for Vultch30</button>
