@@ -1,2 +1,6 @@
 Flask
 gunicorn
+#apt-get install libyaml-dev
+PyYaml
+pymongo
+bcrypt
