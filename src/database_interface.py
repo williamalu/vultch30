@@ -68,8 +68,9 @@ class Database():
 		# Insert profile into collection
 		try:
 			usersCollection.insert(profile)
+			return "Success"
 		except pymongo.errors.DuplicateKeyError, e:
-			print "User already exists: %s" % e
+			return "Duplicate"
 
 
 	"""
