@@ -51,13 +51,13 @@ class Database():
 		usersCollection = self.db['users']
 		
 		# Hash the password
-		hashed = bcrypt.hashpw(password, bcrypt.gensalt())
+		hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
 		# Assemble profile
 		onboard = datetime.now()
 		onboard = onboard.strftime('%m/%d/%Y')
 		profile = {'_id': username,
-				'pass': password,
+				'pass': hashed,
 				'email': email,
 				'onboard': onboard,
 				'type': 'player',
@@ -68,8 +68,9 @@ class Database():
 		# Insert profile into collection
 		try:
 			usersCollection.insert(profile)
+			return "Success"
 		except pymongo.errors.DuplicateKeyError, e:
-			print "User already exists: %s" % e
+			return "Duplicate"
 
 
 	"""
@@ -78,11 +79,12 @@ class Database():
 	def userAuth(self, user, givenPass):
 		# Find the user's profile
 		userProfile = self.db['users'].find_one({'_id': user})
+		givenPass = givenPass.encode('utf-8')
 
 		if userProfile:
 			profilePass = userProfile['pass']
 			# Check password
-			if bcrypt.hashpw(givenPass, profilePass) == profilePass:
+			if bcrypt.checkpw(givenPass, profilePass.encode('utf-8')):
 				return "Authenticated"
 			else:
 				return "Incorrect"

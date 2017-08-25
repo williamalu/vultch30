@@ -26,18 +26,20 @@
         </div>
     </nav>
 
+    <p>{{ warning }}</p>
+
     <div class="container-fluid">
         <div class="row mt-5 justify-content-center">
             <div class="col-lg-4">
                 <h1 class="text-center">LOG IN</h1>
-                <form>
+                <form action="{{ url_for("userAuth") }}" method="post">
                     <div class="form-group">
                         <label for="usernameInput">Username</label>
-                        <input type="text" class="form-control" id="usernameInput" placeholder="Username">
+                        <input type="text" name="username" class="form-control" id="usernameInput" placeholder="Username">
                     </div>
                     <div class="form-group">
                         <label for="passwordInput">Password</label>
-                        <input type="password" class="form-control" id="passwordInput" placeholder="Password">
+                        <input type="password" name="password" class="form-control" id="passwordInput" placeholder="Password">
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-outline-light">Log In</button>

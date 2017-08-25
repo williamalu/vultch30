@@ -41,19 +41,23 @@ def newUser():
 	password = request.form['password']
 
 	if username and email and password:
-		database.newUser(username, email, password)
-		print "New profile created for %s" % username
+		res = database.newUser(username, email, password)
 
+		if res == "Duplicate":
+			warn = "That username is already taken.  Please choose another."
+			return render_template('index.html', warning=warn)
+
+		print "New profile created for %s" % username
 		return render_template('login.html')
 	else: 
-		# TODO: Throw some sort of blank fields warning to the user
-		return render_template('index.html')
+		warn = "Some fields were left blank. Please try again."
+		return render_template('index.html', warning=warn)
 
 
 """
 Handle user authentication
 """
-@app.route('/auth', methods=['POST'])
+@app.route('/userAuth', methods=['POST'])
 def userAuth():
 	# Check that both fields were filled
 	user = request.form['username']
@@ -62,16 +66,16 @@ def userAuth():
 	if user and password:
 		res = database.userAuth(user, password)
 		if res == "Not Found":
-			# TODO: Tell user to make a profile
-			return render_template('login.html')
+			warn = "That username does not exist.  Please try again or create a profile."
+			return render_template('login.html', warning=warn)
 		elif res == "Incorrect":
-			# TODO: Tell the user their pass was incorrect
-			return render_template('login.html')
+			warn = "Incorrect password.  Please try again." 
+			return render_template('login.html', warning=warn)
 		else: 
 			return render_template('main.html')
 	else:
-		# TODO: Throw some sort of blank fields warning to the user
-		return render_template('login.html')
+		warn = "Some fields were left blank.  Please try again."
+		return render_template('login.html', warning=warn)
 
 
 if __name__ == "__main__":
