@@ -53,7 +53,7 @@ def newUser():
 """
 Handle user authentication
 """
-@app.route('/auth', methods=['POST'])
+@app.route('/userAuth', methods=['POST'])
 def userAuth():
 	# Check that both fields were filled
 	user = request.form['username']
@@ -63,14 +63,18 @@ def userAuth():
 		res = database.userAuth(user, password)
 		if res == "Not Found":
 			# TODO: Tell user to make a profile
+			print "Profile not found"
 			return render_template('login.html')
 		elif res == "Incorrect":
 			# TODO: Tell the user their pass was incorrect
+			print "Password was wrong"
 			return render_template('login.html')
 		else: 
+			print "Correct password"
 			return render_template('main.html')
 	else:
 		# TODO: Throw some sort of blank fields warning to the user
+		print "Blank fields"
 		return render_template('login.html')
 
 
